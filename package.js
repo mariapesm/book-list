@@ -8,14 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/antipasjiajia/fcc-bookflow.git"
+    "url": "git+https://github.com/mariapesm/book-list.git"
   },
+   
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/antipasjiajia/fcc-bookflow/issues"
+    "url": "https://github.com/mariapesm/book-list/issues"
   },
-  "homepage": "https://github.com/antipasjiajia/fcc-bookflow#readme",
+  "homepage": "https://github.com/mariapesm/book-list#book-list",
   "dependencies": {
     "body-parser": "^1.17.2",
     "cookie-parser": "^1.4.3",
