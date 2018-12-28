@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ./partials/head %>
+  </head>
+  <body>
+    <div class="container">
+        <h1>Register Page</h1>
+        <p class="lead">Write a comment</p><br>
+        <form role="form" action="/register" method="post" style="max-width: 300px">
+            <div class="form-group">
+                <input class="form-control" type="text" maxlength="10" name="username" placeholder="Enter Username" required>
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="password" name="password" placeholder="Password" required>
+            </div>
+            <a href="/" style="text-decoration:none"><button class="btn btn-danger" type="button">Cancel</button></a>
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+    </div>
+  </body>
+</html>
