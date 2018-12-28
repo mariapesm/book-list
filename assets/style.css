@@ -1,0 +1,57 @@
+body {
+  padding-top: 50px;
+}
+.thumbnail {
+  float: left;
+  width: 25%;
+  height: 250px;
+  position: relative;
+}
+.thumbnail_image {
+  max-height: 180px;
+}
+@media (max-width: 480px) {
+  .thumbnail, .home {
+    width: 50%;
+  }
+}
+p {
+  font-size: 12px;
+}
+.user {
+  position: absolute;
+  left: 10px;
+}
+.modal-title {
+  display: inline-block;
+  font-weight: 700;
+}
+.center-button {
+  text-align: center;
+  margin: 20px 0;
+}
+.input-group {
+  width: 80%;
+  padding-bottom: 10px;
+  margin: auto;
+}
+.modal-body, #search-input {
+  text-align: center;
+}
+.fa-times {
+  top: 6px;
+  position: absolute;
+  right: 8px;
+  color: #1f9;
+}
+.fa-times:hover {
+  opacity: 0.8;
+}
+.user a {
+  color: #000;
+}
+
+.fa-envelope {
+  position: absolute;
+  right: 10px;
+}
