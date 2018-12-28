@@ -1,34 +1,36 @@
 {
-  "name": "fcc-bookflow",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "node-bootstrap3-template",
+  "version": "0.0.1",
+  "description": "a template for express, node.js, and twitter bootstrap 3",
+  "main": "app.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "node app.js "
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mariapesm/book-list.git"
+    "url": "git@github.com:mariapesm/book-list.git"
   },
-   
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/mariapesm/book-list/issues"
-  },
-  "homepage": "https://github.com/mariapesm/book-list#book-list",
+  "keywords": [
+    "nodejs",
+    "express",
+    "template",
+    "twitter",
+    "bootstrap",
+    "bootstrap3"
+  ],
+  "author": "Maria pestematz.",
+  "license": "MIT",
   "dependencies": {
-    "body-parser": "^1.17.2",
-    "cookie-parser": "^1.4.3",
-    "express": "^4.15.3",
-    "jsonwebtoken": "^7.4.1",
-    "mongoose": "^4.11.3",
-    "node-fetch": "^1.7.1",
+    "body-parser": "^1.15.2",
+    "connect-ensure-login": "^0.1.1",
+    "cookie-parser": "^1.3.5",
+    "ejs": "^2.5.5",
+    "express": "~4.14.0",
+    "express-session": "^1.11.3",
+    "mongoose": "~4.7.6",
+    "morgan": "^1.6.1",
     "passport": "^0.3.2",
-    "passport-local-mongoose": "^4.0.0",
-    "serve-favicon": "^2.4.3"
-  },
-  "devDependencies": {
-    "nodemon": "^1.11.0"
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^4.0.0"
   }
 }
