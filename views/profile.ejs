@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <% include ./partials/head %>
+  </head>
+  <body>
+    
+    <% include ./partials/nav %>
+
+    <div class="container">
+      <h2>Your profile</h2>
+      <h4>From <%= user.city %>, <%= user.country %>.</h4>
+      <div class="center-button">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+          Add a new book!
+        </button>
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#profileModal">
+          Update your profile
+        </button>
+      </div>
+
+        <div class="row">          
+        <div class="col-md-10 col-md-offset-1">
+          <!-- search books modal -->
+          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="exampleModalLabel">Search the archives</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">                  
+                  <form id="search">
+                    <div class="input-group">
+                      <input class="form-control" type="text" value="" id="search-input" placeholder="book title" required>
+                    </div>
+                    <button id="submit" class="btn btn-default">Submit</button>
+                  </form>
+                  <br>
+                  <div id="book-list">
+                  <!-- search result -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- update profile modal -->
+          <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="exampleModalLabel">Update your infos</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form id="update">
+                    <div class="input-group">
+                      <input class="form-control" type="text" value="" id="country-input" maxlength="12" placeholder="Your country" required>
+                    </div>
+                    <div class="input-group">
+                      <input class="form-control" type="text" value="" id="city-input" maxlength="12" placeholder="Your city" required>
+                    </div>
+                    <button id="submit" class="btn btn-default">Submit</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- modal messages -->
+          <div class="modal fade" id="conversationsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="exampleModalLabel">Update your infos</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <h4 id="traderName"></h4>
+                  <p id="traderText"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <% for(var i=books.length-1; i >= 0; i--) { %>
+            <div class="thumbnail">
+              <i id="<%= books[i]._id %>" class="fa fa-times" aria-hidden="true"></i>
+              <img class="thumbnail_image" src="<%= books[i].imageLink %>" alt="<%= books[i].title %>" >
+              <div class="user">
+                <p> <%= books[i].author %> <br>
+                <%= books[i].title %> </p>
+              </div>
+              <% if (books[i].wantedBy.length) { %>
+              <i class="fa fa-envelope" aria-hidden="true"data-toggle="modal"
+              data-target="#conversationsModal" onClick="message('<%= books[i].wantedBy[0] %>','<%= books[i].wantedBy[1] %>')"></i>
+              <% } %>
+            </div>
+          <% } %>
+        </div>
+    </div><!-- /.container -->
+  <script>
+  // buttons for books to add
+  function createButton(id,desc){
+    var $input = $('<button>', {
+      class: "btn btn-default add-book",
+      id: id,
+      text: desc,
+      click: function(){
+        var id = $(this).attr('id');
+        $.ajax({
+          url: "https://www.googleapis.com/books/v1/volumes/"+id,
+          type: "GET",
+        })
+        .done(function (data) {
+
+          $.ajax({
+            url: '/profile',
+            type: 'POST',
+            data: { data: data },     
+            complete: function(){
+              window.location.reload(true);
+            }
+          });
+
+        });
+
+      }
+    });
+    $input.appendTo($("#book-list"));
+  }
+  //
+  $("#search").submit(function(e){
+    $.ajax({
+      url: "https://www.googleapis.com/books/v1/volumes?q="+$("#search-input").val(),
+      type: "GET"
+    })
+    .done(function (data) {
+      for(var i = 0; i < 10; i++){
+        createButton(data.items[i].id,data.items[i].volumeInfo.title+" - "+data.items[i].volumeInfo.authors);
+      }
+    });
+    e.preventDefault();
+  });
+  //
+  $("#update").submit(function(e){
+    var country=$("#country-input").val();
+    var city=$("#city-input").val();
+    $.ajax({
+      url: "/profile/update/<%= user.username %>",
+      type: "POST",
+      data: { country: country , city: city }
+    })
+    .done(function (data) {
+      window.location.reload(true);
+    });
+    e.preventDefault();
+  });
+  //
+  $('.fa-times').on('click', function(){
+    var id = $(this).attr('id');
+    $.ajax({
+      url: '/profile/'+id,
+      type: 'DELETE',       
+      complete: function(){
+        window.location.reload(true);
+      }
+    });
+  });
+  function message(a,b){
+    $("#traderName").text("From: "+ a);
+    $("#traderText").text(b);
+  }
+  </script>
+  </body>
+</html>
